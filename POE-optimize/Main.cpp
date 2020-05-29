@@ -10,7 +10,7 @@ int CALLBACK wWinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE, PWSTR szCmdLine,
 
 }
 
-// Это временный костыль для дебага в консоль, потом его уберу
+// Это временный костыль для дебага в консоль, потом его уберу;
 int main() {
 	HINSTANCE hInstance{};
 	HINSTANCE h{};
