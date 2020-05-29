@@ -1,4 +1,4 @@
-#include "App/App.h"
+п»ї#include "App/App.h"
 
 
 HWND hwnd;
@@ -10,7 +10,7 @@ int CALLBACK wWinMain(_In_ HINSTANCE hInstance, _In_ HINSTANCE, PWSTR szCmdLine,
 
 }
 
-// Это временный костыль для дебага в консоль, потом его уберу;
+// Р­С‚Рѕ РІСЂРµРјРµРЅРЅС‹Р№ РєРѕСЃС‚С‹Р»СЊ РґР»СЏ РґРµР±Р°РіР° РІ РєРѕРЅСЃРѕР»СЊ, РїРѕС‚РѕРј РµРіРѕ СѓР±РµСЂСѓ
 int main() {
 	HINSTANCE hInstance{};
 	HINSTANCE h{};

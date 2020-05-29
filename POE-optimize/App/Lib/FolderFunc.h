@@ -1,4 +1,4 @@
-#include <Windows.h>
+п»ї#include <Windows.h>
 #include <iostream>
 #include "shlobj.h"
 #include <atlstr.h>
@@ -33,5 +33,5 @@ CString BrowseForFolder(HWND hwnd, CString title, CString folder)
 }
 
 
-// Пример
+// РџСЂРёРјРµСЂ
 // CString folder = BrowseForFolder(hWnd, L"Select Folder", L"C:\\");
