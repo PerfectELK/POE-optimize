@@ -1,5 +1,6 @@
 #include "App.h"
 #include "Modules/Windows/tray.h"
+#include "Lib/FolderFunc.h"
 
 App::App()
 {
@@ -309,7 +310,13 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 		case App::CTRLS_ID::PLAY_BTN_ID: {
 
-			return 0;
+			break;
+		}
+		case App::CTRLS_ID::PATH_POE_BTN_ID: {
+			//CString folder = BrowseForFolder(hWnd, L"Select Folder", L"C:\\");
+			CString folder = BrowseForFile(hWnd, "Select \".exe\" file");
+			SetWindowText(this->m_hvndPathOfExilePath, folder);
+			break;
 		}
 		default: {
 
