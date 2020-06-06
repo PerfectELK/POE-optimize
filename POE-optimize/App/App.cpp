@@ -1,4 +1,5 @@
 #include "App.h"
+#include "Modules/Windows/tray.h"
 
 App::App()
 {
@@ -29,6 +30,7 @@ int App::Run()
 	MSG msg{};
 	ShowWindow(this->m_hwnd, SW_SHOWDEFAULT);
 	UpdateWindow(this->m_hwnd);
+
 	while (GetMessage(&msg, nullptr, 0, 0)) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
@@ -127,8 +129,9 @@ LRESULT App::AppProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 LRESULT App::WINProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	using namespace std;
+	
 	switch (uMsg) {
-
 		case WM_DESTROY:
 		{
 			PostQuitMessage(EXIT_SUCCESS);
@@ -137,6 +140,41 @@ LRESULT App::WINProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case WM_COMMAND:
 		{
 			return this->AppCommand(hWnd, uMsg, wParam, lParam);
+		}
+		case WM_SYSCOMMAND:
+		{
+			WORD param = LOWORD(wParam);
+			
+			if (param == SC_MINIMIZE) {
+				ShowWindow(this->m_hwnd, SW_HIDE);
+				to_tray(this->m_hwnd, this->nf);
+			}
+			if (param == SC_CLOSE) {
+				PostQuitMessage(EXIT_SUCCESS);
+			}
+			break;
+		}
+		case SWM_TRAYMSG:
+		{
+			switch (lParam)
+			{
+				case WM_LBUTTONDBLCLK:
+				{
+					ShowWindow(this->m_hwnd, SW_SHOWDEFAULT);
+					UpdateWindow(this->m_hwnd);
+					from_tray(this->nf);
+				}
+				case WM_RBUTTONDOWN:
+				{
+					break;
+				}
+				case WM_CONTEXTMENU: 
+				{
+					break;
+				}
+			}
+
+			break;
 		}
 		default:
 		{

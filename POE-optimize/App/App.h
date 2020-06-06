@@ -5,6 +5,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #include <Windows.h>
 #include <iostream>
 
+
 class App {
 
 	enum class CTRLS_ID {
@@ -29,4 +30,5 @@ private:
 	const std::wstring AppName = { L"POE-no_freeze" }, className{ L"POE-no_freeze" };
 	HWND m_hwnd{}, m_hwndButton, m_hwndPathAhkEdit, m_hvndPathMyDocEdit;
 	const int AppWidth{ 400 }, AppHeight{ 600 };
+	NOTIFYICONDATA nf{};
 };
