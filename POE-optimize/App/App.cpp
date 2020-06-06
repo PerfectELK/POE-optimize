@@ -80,6 +80,14 @@ void App::InitWindow()
 void App::InitControls()
 {
 	using std::runtime_error;
+
+	int CONTROL_HEIHGT = 25;
+	int BUTTON_WIDTH = 130;
+	int EDIT_WIDTH = 200;
+
+	int BUTTON_X = 210;
+	int EDIT_X = 10;
+
 	
 	this->m_hwndButton = CreateWindowEx(
 		0,
@@ -87,19 +95,125 @@ void App::InitControls()
 		L"Играть",
 		WS_CHILD | BS_PUSHBUTTON | WS_VISIBLE,
 		this->AppWidth - 90, 
-		this->AppHeight - 60,
+		this->AppHeight - 70,
 		70,
-		20,
+		CONTROL_HEIHGT,
 		this->m_hwnd,
 		(HMENU) App::CTRLS_ID::PLAY_BTN_ID,
 		nullptr,
 		nullptr
 	);
 
-	if (!this->m_hwndButton) {
-		throw runtime_error("Error, can't create button!");
-	}
+	this->m_hvndPathOfExilePath = CreateWindowEx(
+		0,
+		L"EDIT",
+		L"",
+		WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | ES_READONLY | WS_BORDER | WS_EX_STATICEDGE,
+		EDIT_X, 20, EDIT_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_POE_ID,
+		nullptr,
+		nullptr
+	);
 
+
+	this->m_hvndPathOfExileBtn = CreateWindowEx(
+		0,
+		L"BUTTON",
+		L"Poe dir",
+		WS_CHILD | BS_PUSHBUTTON | WS_VISIBLE | ES_LEFT ,
+		BUTTON_X, 20, BUTTON_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_POE_BTN_ID,
+		nullptr,
+		nullptr
+	);
+
+	this->m_hvndPathMyDocEdit = CreateWindowEx(
+		0,
+		L"EDIT",
+		L"",
+		WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | ES_READONLY | WS_BORDER | WS_EX_STATICEDGE,
+		EDIT_X, 50, EDIT_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_POE_MY_DOC_ID,
+		nullptr,
+		nullptr
+	);
+
+	this->m_hvndPathMyDocEditBtn = CreateWindowEx(
+		0,
+		L"BUTTON",
+		L"My doc poe dir",
+		WS_CHILD | BS_PUSHBUTTON | WS_VISIBLE | ES_LEFT,
+		BUTTON_X, 50, BUTTON_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_POE_MY_DOC_BTN_ID,
+		nullptr,
+		nullptr
+	);
+	
+	this->m_hwndPathAhkEdit = CreateWindowEx(
+		0,
+		L"EDIT",
+		L"",
+		WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | ES_READONLY | WS_BORDER | WS_EX_STATICEDGE,
+		EDIT_X, 80, EDIT_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_AHK_ID,
+		nullptr,
+		nullptr
+	);
+
+	this->m_hvndPathAhkBtn = CreateWindowEx(
+		0,
+		L"BUTTON",
+		L"Ahk path",
+		WS_CHILD | BS_PUSHBUTTON | WS_VISIBLE | ES_LEFT,
+		BUTTON_X, 80, BUTTON_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_AHK_BTN,
+		nullptr,
+		nullptr
+	);
+	
+	this->m_hvndPoeTradeEdit = CreateWindowEx(
+		0,
+		L"EDIT",
+		L"",
+		WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | ES_READONLY | WS_BORDER | WS_EX_STATICEDGE,
+		EDIT_X, 110, EDIT_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_POE_TRADE_ID,
+		nullptr,
+		nullptr
+	);
+
+	this->m_hvndPoeTradeBtn = CreateWindowEx(
+		0,
+		L"BUTTON",
+		L"Poe trade macro",
+		WS_CHILD | BS_PUSHBUTTON | WS_VISIBLE | ES_LEFT,
+		BUTTON_X, 110, BUTTON_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_POE_TRADE_BTN,
+		nullptr,
+		nullptr
+	);
+
+
+
+	HFONT hFont = CreateFont(18, 0, 0, 0, FW_REGULAR, 0, 0, 0, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH, L"Roboto");
+
+	SendMessage(this->m_hwndButton, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndPathOfExilePath, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndPathOfExileBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndPathMyDocEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndPathMyDocEditBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hwndPathAhkEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndPathAhkBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndPoeTradeEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndPoeTradeBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
 
 }
 
@@ -148,11 +262,13 @@ LRESULT App::WINProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (param == SC_MINIMIZE) {
 				ShowWindow(this->m_hwnd, SW_HIDE);
 				to_tray(this->m_hwnd, this->nf);
+				break;
 			}
 			if (param == SC_CLOSE) {
 				PostQuitMessage(EXIT_SUCCESS);
+				break;
 			}
-			break;
+			return DefWindowProc(hWnd, uMsg, wParam, lParam);
 		}
 		case SWM_TRAYMSG:
 		{
