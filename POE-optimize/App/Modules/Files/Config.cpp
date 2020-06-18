@@ -69,7 +69,6 @@ void Config::setKey(CString key, CString value) {
     if (key.IsEmpty() || value.IsEmpty()) {
         return;
     }
-    cout << value << endl;
     this->conf[key] = value;
     this->writeConfig();
 }

@@ -13,6 +13,7 @@ App::App()
 		this->InitControls();
 		this->cnf = Config::getInstance();
 		this->ConfToControls();
+		this->RegistryInConf();
 	}
 	catch (const std::exception& e) {
 
@@ -245,6 +246,35 @@ void App::ConfToControls() {
 
 }
 
+
+void App::RegistryInConf() {
+
+	if (this->cnf->getKey(_T("AHK")).IsEmpty()) {
+		string AhkInstallPath = getRegistryKey(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\AutoHotkey"), _T("InstallDir"));
+		if (AhkInstallPath != "bad") {
+			this->cnf->setKey(_T("AHK"), StrToAnsi(AhkInstallPath));
+			SetWindowText(this->m_hwndPathAhkEdit, StrToAnsi(AhkInstallPath));
+		}
+	}
+
+	if (this->cnf->getKey(_T("POE")).IsEmpty()) {
+		string poeInstallPath = getRegistryKey(HKEY_CURRENT_USER, L"SOFTWARE\\GrindingGearGames\\Path of Exile", L"InstallLocation");
+		if (poeInstallPath != "bad") {
+			this->cnf->setKey(_T("POE"), StrToAnsi(poeInstallPath));
+			SetWindowText(this->m_hvndPathOfExilePath, StrToAnsi(poeInstallPath));
+		}
+	}
+
+	
+
+
+}
+
+void App::clearCache() {
+
+}
+
+
 LRESULT App::AppProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	App* pApp;
@@ -336,6 +366,21 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (CTRL) {
 
 		case App::CTRLS_ID::PLAY_BTN_ID: {
+			
+		
+			if (!this->cnf->getKey(_T("POE_TRADE")).IsEmpty() && !this->cnf->getKey(_T("AHK")).IsEmpty()) {
+				CString ahk = this->cnf->getKey(_T("AHK")) + "\\" + this->AhkFileName;
+				cout << ahk << endl;
+				ShellExecute(NULL, L"open", ahk, this->cnf->getKey(_T("POE_TRADE")), 0, SW_SHOWNORMAL);
+			}
+
+			Sleep(5000);
+
+			if (!this->cnf->getKey(_T("POE")).IsEmpty()) {
+				CString poe = this->cnf->getKey(_T("POE")) + "\\" + this->PoeFileName;
+				ShellExecute(NULL, L"open", poe, NULL, 0, SW_SHOWNORMAL);
+			}
+
 
 			break;
 		}
@@ -355,7 +400,7 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		case App::CTRLS_ID::PATH_AHK_BTN: {
-			CString file = BrowseForFile(hWnd, L"Select file");
+			CString file = BrowseForFolder(hWnd, L"Select folder", L"C:\\");
 			SetWindowText(this->m_hwndPathAhkEdit, file);
 
 			this->cnf->setKey(_T("AHK"), file);

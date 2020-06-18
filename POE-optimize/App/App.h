@@ -5,6 +5,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #include <Windows.h>
 #include <iostream>
 #include "Modules/Files/Config.h"
+#include "Modules/Windows/registry.h"
 
 class App {
 
@@ -28,6 +29,8 @@ private:
 	void InitWindow();
 	void InitControls();
 	void ConfToControls();
+	void RegistryInConf();
+	void clearCache();
 
 	static LRESULT CALLBACK AppProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK WINProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -43,4 +46,7 @@ private:
 	const int AppWidth{ 400 }, AppHeight{ 600 };
 	NOTIFYICONDATA nf{};
 	Config* cnf;
+
+	CString AhkFileName = L"AutoHotkey.exe";
+	CString PoeFileName = L"PathOfExile.exe";
 };

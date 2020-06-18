@@ -2,6 +2,9 @@
 #include <iostream>
 #include "shlobj.h"
 #include <atlstr.h>
+#include <filesystem>
+
+#define SUCCESS_STAT 0
 
 using namespace std;
 
@@ -81,6 +84,13 @@ string ConvertWideCharToUtf8( const wchar_t *wideText )
     free( buffer );
 
     return s;
+}
+
+void RemoveAllFromDir(string path) {
+	std::filesystem::path pathToDelete(path);
+	for (const auto& entry : std::filesystem::directory_iterator(pathToDelete)) {
+		remove_all(entry.path());
+	}
 }
 
 
