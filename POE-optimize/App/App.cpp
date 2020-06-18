@@ -11,13 +11,14 @@ App::App()
 
 		this->InitWindow();
 		this->InitControls();
-
+		this->cnf = Config::getInstance();
+		this->ConfToControls();
 	}
 	catch (const std::exception& e) {
 
 		string ExceptData = e.what();
 
-		MessageBox(nullptr, wstring(begin(ExceptData), end(ExceptData)).c_str(), L"Ошибка", MB_ICONERROR | MB_OK);
+		MessageBox(nullptr, wstring(begin(ExceptData), end(ExceptData)).c_str(), L"пїЅпїЅпїЅпїЅпїЅпїЅ", MB_ICONERROR | MB_OK);
 		ExitProcess(EXIT_FAILURE);
 	}
 }
@@ -93,7 +94,7 @@ void App::InitControls()
 	this->m_hwndButton = CreateWindowEx(
 		0,
 		L"BUTTON",
-		L"Играть",
+		L"Play",
 		WS_CHILD | BS_PUSHBUTTON | WS_VISIBLE,
 		this->AppWidth - 90, 
 		this->AppHeight - 70,
@@ -218,6 +219,32 @@ void App::InitControls()
 
 }
 
+void App::ConfToControls() {
+	CString s = this->cnf->getKey("POE");
+	if (!s.IsEmpty()) {
+		SetWindowText(this->m_hvndPathOfExilePath, s);
+	}
+	
+	s = this->cnf->getKey("POE_DOC");
+
+	if (!s.IsEmpty()) {
+		SetWindowText(this->m_hvndPathMyDocEdit, s);
+	}
+
+	s = this->cnf->getKey("AHK");
+
+	if (!s.IsEmpty()) {
+		SetWindowText(this->m_hwndPathAhkEdit, s);
+	}
+
+	s = this->cnf->getKey("POE_TRADE");
+
+	if (!s.IsEmpty()) {
+		SetWindowText(this->m_hvndPoeTradeEdit, s);
+	}
+
+}
+
 LRESULT App::AppProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	App* pApp;
@@ -313,9 +340,34 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		case App::CTRLS_ID::PATH_POE_BTN_ID: {
-			//CString folder = BrowseForFolder(hWnd, L"Select Folder", L"C:\\");
-			CString folder = BrowseForFile(hWnd, "Select \".exe\" file");
+			CString folder = BrowseForFolder(hWnd, L"Select Folder", L"C:\\");
 			SetWindowText(this->m_hvndPathOfExilePath, folder);
+
+			this->cnf->setKey(_T("POE"), folder);
+			break;
+		}
+		case App::CTRLS_ID::PATH_POE_MY_DOC_BTN_ID: {
+			CString folder = BrowseForFolder(hWnd, L"Select Folder", L"C:\\");
+			SetWindowText(this->m_hvndPathMyDocEdit, folder);
+
+			this->cnf->setKey(_T("POE_DOC"), folder);
+
+			break;
+		}
+		case App::CTRLS_ID::PATH_AHK_BTN: {
+			CString file = BrowseForFile(hWnd, L"Select file");
+			SetWindowText(this->m_hwndPathAhkEdit, file);
+
+			this->cnf->setKey(_T("AHK"), file);
+
+			break;
+		}
+		case App::CTRLS_ID::PATH_POE_TRADE_BTN: {
+			CString file = BrowseForFile(hWnd, L"Select file");
+			SetWindowText(this->m_hvndPoeTradeEdit, file);
+
+			this->cnf->setKey(_T("POE_TRADE"), file);		
+
 			break;
 		}
 		default: {

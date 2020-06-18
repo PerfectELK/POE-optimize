@@ -4,7 +4,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 #include <Windows.h>
 #include <iostream>
-
+#include "Modules/Files/Config.h"
 
 class App {
 
@@ -27,6 +27,7 @@ public:
 private:
 	void InitWindow();
 	void InitControls();
+	void ConfToControls();
 
 	static LRESULT CALLBACK AppProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK WINProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -41,4 +42,5 @@ private:
 		m_hvndPathOfExilePath, m_hvndPathOfExileBtn;
 	const int AppWidth{ 400 }, AppHeight{ 600 };
 	NOTIFYICONDATA nf{};
+	Config* cnf;
 };

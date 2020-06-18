@@ -3,6 +3,8 @@
 #include "shlobj.h"
 #include <atlstr.h>
 
+using namespace std;
+
 INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData)
 {
 	if (uMsg == BFFM_INITIALIZED) SendMessage(hwnd, BFFM_SETSELECTION, TRUE, pData);
@@ -24,6 +26,7 @@ CString BrowseForFolder(HWND hwnd, CString title, CString folder)
 	LPITEMIDLIST pidl = NULL;
 	if ((pidl = SHBrowseForFolder(&br)) != NULL)
 	{
+		
 		wchar_t buffer[MAX_PATH];
 		if (SHGetPathFromIDList(pidl, buffer)) ret = buffer;
 
@@ -36,25 +39,48 @@ CString BrowseForFile(HWND hwnd, CString title)
 {
 	CString ret;
 
-	OPENFILENAME ofn;
-	LPWSTR ls{};
-	char str[MAX_PATH];
-	str[0] = 0;
-	::memset(&ofn, 0, sizeof(ofn));
-	ofn.lStructSize = sizeof(OPENFILENAME);
-	ofn.lpstrTitle = title;
-	ofn.nFilterIndex = 2;
-	ofn.lpstrFile = (LPWSTR) str;
-	ofn.hwndOwner = hwnd;
-	ofn.nMaxFile = MAX_PATH;
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+	OPENFILENAME l = { sizeof(l), };
+	TCHAR buf[1024];
+	l.hwndOwner = hwnd;
+	l.lpstrFilter = NULL;
+	l.lpstrFile = buf;
+	l.nMaxFile = 1023;
+	l.lpstrTitle = _T("Open File");
+	l.lpstrDefExt = _T("zip");
+	l.lpstrInitialDir = NULL;
+	l.Flags = OFN_HIDEREADONLY | OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR;
+	buf[0] = 0;
 
-	if (::GetOpenFileName(&ofn) != FALSE)
+	if (::GetOpenFileName(&l) != FALSE)
 	{
-		ret = ofn.lpstrFile;
+		ret = l.lpstrFile;
 	}
 
 	return ret;
+}
+
+
+
+string AnsiToStr(CString ansi) {
+	CT2CA ConvertedAnsiString(ansi);
+	string s(ConvertedAnsiString);
+	return s;
+}
+
+CString StrToAnsi(string str) {
+	CString cs(str.c_str());
+	return cs;
+}
+
+string ConvertWideCharToUtf8( const wchar_t *wideText )
+{
+    int len = WideCharToMultiByte( CP_UTF8, 0, wideText, -1, NULL, 0, NULL, NULL );
+    char *buffer = (char *)malloc( len );
+    WideCharToMultiByte( CP_UTF8, 0, wideText, -1, buffer, len, NULL, NULL );
+    string s = buffer;
+    free( buffer );
+
+    return s;
 }
 
 
