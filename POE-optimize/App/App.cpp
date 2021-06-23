@@ -19,7 +19,7 @@ App::App()
 
 		string ExceptData = e.what();
 
-		MessageBox(nullptr, wstring(begin(ExceptData), end(ExceptData)).c_str(), L"������", MB_ICONERROR | MB_OK);
+		MessageBox(nullptr, wstring(begin(ExceptData), end(ExceptData)).c_str(), L"App crash", MB_ICONERROR | MB_OK);
 		ExitProcess(EXIT_FAILURE);
 	}
 }

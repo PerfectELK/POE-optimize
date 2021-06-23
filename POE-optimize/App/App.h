@@ -37,7 +37,7 @@ private:
 	LRESULT CALLBACK AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	
 private:
-	const std::wstring AppName = { L"POE-no_freeze" }, className{ L"POE-no_freeze" };
+	const std::wstring AppName = { L"POE Optimize" }, className{ L"POE Optimize" };
 	HWND m_hwnd{}, m_hwndButton, 
 		m_hwndPathAhkEdit, m_hvndPathAhkBtn,
 		m_hvndPathMyDocEdit, m_hvndPathMyDocEditBtn,

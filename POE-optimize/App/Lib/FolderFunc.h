@@ -86,12 +86,12 @@ string ConvertWideCharToUtf8( const wchar_t *wideText )
     return s;
 }
 
-void RemoveAllFromDir(string path) {
-	std::filesystem::path pathToDelete(path);
-	for (const auto& entry : std::filesystem::directory_iterator(pathToDelete)) {
-		remove_all(entry.path());
-	}
-}
+//void removeallfromdir(string path) {
+//	std::filesystem::path pathtodelete(path);
+//	for (const auto& entry : std::filesystem::directory_iterator(pathtodelete)) {
+//		remove_all(entry.path());
+//	}
+//}
 
 
 // Пример
