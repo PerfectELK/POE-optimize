@@ -18,7 +18,12 @@ class App {
 		PATH_POE_ID,
 		PATH_POE_BTN_ID,
 		PATH_POE_TRADE_ID,
-		PATH_POE_TRADE_BTN
+		PATH_POE_TRADE_BTN,
+		CLEAR_CACHE_INTERVAL_ID
+	};
+
+	enum class LABELS_ID {
+		INTERVAL_LABEL_ID
 	};
 
 public:
@@ -42,7 +47,9 @@ private:
 		m_hwndPathAhkEdit, m_hvndPathAhkBtn,
 		m_hvndPathMyDocEdit, m_hvndPathMyDocEditBtn,
 		m_hvndPoeTradeEdit, m_hvndPoeTradeBtn,
-		m_hvndPathOfExilePath, m_hvndPathOfExileBtn;
+		m_hvndPathOfExilePath, m_hvndPathOfExileBtn,
+		m_hvndClearCacheInterval;
+	HWND m_hvndIntervalLabel;
 	const int AppWidth{ 400 }, AppHeight{ 600 };
 	NOTIFYICONDATA nf{};
 	Config* cnf;

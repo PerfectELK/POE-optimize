@@ -87,9 +87,12 @@ void App::InitControls()
 	int CONTROL_HEIHGT = 25;
 	int BUTTON_WIDTH = 130;
 	int EDIT_WIDTH = 200;
+	int NUM_EDIT_WIDTH = 50;
 
 	int BUTTON_X = 210;
 	int EDIT_X = 10;
+
+	int bottomBlockStart = this->AppHeight - 250;
 
 	
 	this->m_hwndButton = CreateWindowEx(
@@ -204,6 +207,31 @@ void App::InitControls()
 		nullptr
 	);
 
+	this->m_hvndIntervalLabel = CreateWindowEx(
+		0,
+		L"STATIC",
+		L"Clear cache interval",
+		WS_CHILD | WS_VISIBLE,
+		EDIT_X, bottomBlockStart, EDIT_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::LABELS_ID::INTERVAL_LABEL_ID,
+		nullptr,
+		nullptr
+	);
+
+	
+	this->m_hvndClearCacheInterval = CreateWindowEx(
+		0,
+		L"EDIT",
+		L"",
+		WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | WS_BORDER | WS_EX_STATICEDGE | ES_NUMBER,
+		EDIT_X, bottomBlockStart + CONTROL_HEIHGT, NUM_EDIT_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::CLEAR_CACHE_INTERVAL_ID,
+		nullptr,
+		nullptr
+	);
+
 
 
 	HFONT hFont = CreateFont(18, 0, 0, 0, FW_REGULAR, 0, 0, 0, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH, L"Roboto");
@@ -217,6 +245,8 @@ void App::InitControls()
 	SendMessage(this->m_hvndPathAhkBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndPoeTradeEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndPoeTradeBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndClearCacheInterval, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndIntervalLabel, WM_SETFONT, (WPARAM)hFont, TRUE);
 
 }
 
@@ -302,8 +332,17 @@ LRESULT App::AppProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 LRESULT App::WINProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	using namespace std;
-	
+	static HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 255));
+
 	switch (uMsg) {
+		// Set a static controls bg color #fff
+		case WM_CTLCOLORSTATIC: 
+		{
+			HDC hdcStatic = (HDC) wParam;
+			SetTextColor(hdcStatic, RGB(0, 0, 0));
+			SetBkColor(hdcStatic, RGB(255, 255, 255));
+			return (INT_PTR) hBrush;
+		}
 		case WM_DESTROY:
 		{
 			PostQuitMessage(EXIT_SUCCESS);
@@ -363,6 +402,7 @@ LRESULT App::WINProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	App::CTRLS_ID CTRL = (App::CTRLS_ID) LOWORD(wParam);
+
 	switch (CTRL) {
 
 		case App::CTRLS_ID::PLAY_BTN_ID: {
@@ -413,6 +453,12 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			this->cnf->setKey(_T("POE_TRADE"), file);		
 
+			break;
+		}case App::CTRLS_ID::CLEAR_CACHE_INTERVAL_ID: {
+			int actionCode = HIWORD(wParam);
+			if (actionCode == EN_CHANGE) {
+				std::cout << "kekw" << std::endl;
+			}
 			break;
 		}
 		default: {
