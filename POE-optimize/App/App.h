@@ -56,4 +56,5 @@ private:
 
 	CString AhkFileName = L"AutoHotkey.exe";
 	CString PoeFileName = L"PathOfExile.exe";
+	CString DefaultClearCacheInterval = "3";
 };

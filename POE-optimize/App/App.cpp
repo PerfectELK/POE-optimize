@@ -210,7 +210,7 @@ void App::InitControls()
 	this->m_hvndIntervalLabel = CreateWindowEx(
 		0,
 		L"STATIC",
-		L"Clear cache interval",
+		L"Clear cache interval (default 3 minutes)",
 		WS_CHILD | WS_VISIBLE,
 		EDIT_X, bottomBlockStart, EDIT_WIDTH, CONTROL_HEIHGT,
 		this->m_hwnd,
@@ -219,7 +219,7 @@ void App::InitControls()
 		nullptr
 	);
 
-	
+
 	this->m_hvndClearCacheInterval = CreateWindowEx(
 		0,
 		L"EDIT",
@@ -295,8 +295,10 @@ void App::RegistryInConf() {
 		}
 	}
 
-	
-
+	if (this->cnf->getKey(_T("ClearCacheInterval")).IsEmpty()) {
+		this->cnf->setKey(_T("ClearCacheInterval"), this->DefaultClearCacheInterval);
+		SetWindowText(this->m_hvndClearCacheInterval, this->DefaultClearCacheInterval);
+	}
 
 }
 
@@ -402,15 +404,13 @@ LRESULT App::WINProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	App::CTRLS_ID CTRL = (App::CTRLS_ID) LOWORD(wParam);
+	int actionCode = HIWORD(wParam);
 
 	switch (CTRL) {
 
 		case App::CTRLS_ID::PLAY_BTN_ID: {
-			
-		
 			if (!this->cnf->getKey(_T("POE_TRADE")).IsEmpty() && !this->cnf->getKey(_T("AHK")).IsEmpty()) {
 				CString ahk = this->cnf->getKey(_T("AHK")) + "\\" + this->AhkFileName;
-				cout << ahk << endl;
 				ShellExecute(NULL, L"open", ahk, this->cnf->getKey(_T("POE_TRADE")), 0, SW_SHOWNORMAL);
 			}
 
@@ -421,20 +421,18 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				ShellExecute(NULL, L"open", poe, NULL, 0, SW_SHOWNORMAL);
 			}
 
-
 			break;
 		}
 		case App::CTRLS_ID::PATH_POE_BTN_ID: {
 			CString folder = BrowseForFolder(hWnd, L"Select Folder", L"C:\\");
 			SetWindowText(this->m_hvndPathOfExilePath, folder);
-
 			this->cnf->setKey(_T("POE"), folder);
+
 			break;
 		}
 		case App::CTRLS_ID::PATH_POE_MY_DOC_BTN_ID: {
 			CString folder = BrowseForFolder(hWnd, L"Select Folder", L"C:\\");
 			SetWindowText(this->m_hvndPathMyDocEdit, folder);
-
 			this->cnf->setKey(_T("POE_DOC"), folder);
 
 			break;
@@ -442,7 +440,6 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case App::CTRLS_ID::PATH_AHK_BTN: {
 			CString file = BrowseForFolder(hWnd, L"Select folder", L"C:\\");
 			SetWindowText(this->m_hwndPathAhkEdit, file);
-
 			this->cnf->setKey(_T("AHK"), file);
 
 			break;
@@ -455,14 +452,21 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			break;
 		}case App::CTRLS_ID::CLEAR_CACHE_INTERVAL_ID: {
-			int actionCode = HIWORD(wParam);
 			if (actionCode == EN_CHANGE) {
-				std::cout << "kekw" << std::endl;
+				CString clearCacheIntervalCStr;
+				TCHAR clearCacheIntervalStr[1024];
+				GetWindowText(this->m_hvndClearCacheInterval, clearCacheIntervalStr, sizeof(clearCacheIntervalStr));
+				clearCacheIntervalCStr = clearCacheIntervalStr;
+				if (!clearCacheIntervalCStr.IsEmpty()) {
+					this->cnf->setKey(_T("ClearCacheInterval"), clearCacheIntervalCStr);
+				} else {
+					this->cnf->setKey(_T("ClearCacheInterval"), this->DefaultClearCacheInterval);
+				}
+				
 			}
 			break;
 		}
 		default: {
-
 			break;
 		}
 			
