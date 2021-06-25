@@ -102,12 +102,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="POE-optimize\App\Modules\Files\CacheCleaner.cpp" />
     <ClCompile Include="poe-optimize\app\App.cpp" />
     <ClCompile Include="poe-optimize\app\modules\files\Config.cpp" />
     <ClCompile Include="poe-optimize\app\modules\windows\registry.cpp" />
     <ClCompile Include="poe-optimize\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="POE-optimize\App\Modules\Files\CacheCleaner.h" />
     <ClInclude Include="poe-optimize\app\App.h" />
     <ClInclude Include="poe-optimize\app\lib\FolderFunc.h" />
     <ClInclude Include="poe-optimize\app\modules\files\Config.h" />

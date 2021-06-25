@@ -5,6 +5,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #include <Windows.h>
 #include <iostream>
 #include "Modules/Files/Config.h"
+#include "Modules/Files/CacheCleaner.h"
 #include "Modules/Windows/registry.h"
 
 class App {
@@ -53,6 +54,7 @@ private:
 	const int AppWidth{ 400 }, AppHeight{ 600 };
 	NOTIFYICONDATA nf{};
 	Config* cnf;
+	CacheCleaner* cacheCleaner;
 
 	CString AhkFileName = L"AutoHotkey.exe";
 	CString PoeFileName = L"PathOfExile.exe";

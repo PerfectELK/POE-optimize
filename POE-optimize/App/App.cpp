@@ -12,8 +12,12 @@ App::App()
 		this->InitWindow();
 		this->InitControls();
 		this->cnf = Config::getInstance();
+		this->cacheCleaner = CacheCleaner::getInstance();
 		this->ConfToControls();
 		this->RegistryInConf();
+
+		this->cacheCleaner->setClearCacheInterval(this->cnf->getKey(_T("ClearCacheInterval")));
+		this->cacheCleaner->setUpClearCacheThread();
 	}
 	catch (const std::exception& e) {
 
@@ -212,7 +216,7 @@ void App::InitControls()
 		L"STATIC",
 		L"Clear cache interval (default 3 minutes)",
 		WS_CHILD | WS_VISIBLE,
-		EDIT_X, bottomBlockStart, EDIT_WIDTH, CONTROL_HEIHGT,
+		EDIT_X, bottomBlockStart, 400, CONTROL_HEIHGT,
 		this->m_hwnd,
 		(HMENU)App::LABELS_ID::INTERVAL_LABEL_ID,
 		nullptr,
@@ -298,6 +302,9 @@ void App::RegistryInConf() {
 	if (this->cnf->getKey(_T("ClearCacheInterval")).IsEmpty()) {
 		this->cnf->setKey(_T("ClearCacheInterval"), this->DefaultClearCacheInterval);
 		SetWindowText(this->m_hvndClearCacheInterval, this->DefaultClearCacheInterval);
+	}
+	else {
+		SetWindowText(this->m_hvndClearCacheInterval, this->cnf->getKey(_T("ClearCacheInterval")));
 	}
 
 }
@@ -462,6 +469,7 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				} else {
 					this->cnf->setKey(_T("ClearCacheInterval"), this->DefaultClearCacheInterval);
 				}
+				this->cacheCleaner->setClearCacheInterval(this->cnf->getKey(_T("ClearCacheInterval")));
 				
 			}
 			break;

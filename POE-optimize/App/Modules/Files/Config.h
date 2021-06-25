@@ -14,7 +14,6 @@ using namespace std;
 
 class Config {
 private:
-
     Config();
     void writeFile();
     void writeConfig();
