@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Modules/Windows/tray.h"
-#include "Lib/FolderFunc.h"
+
+using namespace std;
 
 App::App()
 {
@@ -11,13 +12,11 @@ App::App()
 
 		this->InitWindow();
 		this->InitControls();
-		this->cnf = Config::getInstance();
 		this->cacheCleaner = CacheCleaner::getInstance();
+		this->cnf = Config::getInstance();
 		this->ConfToControls();
 		this->RegistryInConf();
-
-		this->cacheCleaner->setClearCacheInterval(this->cnf->getKey(_T("ClearCacheInterval")));
-		this->cacheCleaner->setUpClearCacheThread();
+		this->setUpCacheCleaner();
 	}
 	catch (const std::exception& e) {
 
@@ -309,8 +308,29 @@ void App::RegistryInConf() {
 
 }
 
-void App::clearCache() {
 
+void App::setUpCacheCleaner()
+{
+	this->cacheCleaner->setClearCacheInterval(this->cnf->getKey(_T("ClearCacheInterval")));
+	
+	vector<CString> dirs;
+	CString poeDir = this->cnf->getKey(_T("POE"));
+	CString poeDocDir = this->cnf->getKey(_T("POE_DOC"));
+
+	if (!poeDir.IsEmpty()) {
+		dirs.push_back(poeDir + "\\logs\\");
+	}
+
+	if (!poeDocDir.IsEmpty()) {
+		dirs.push_back(poeDocDir + "\\Minimap\\");
+		dirs.push_back(poeDocDir + "\\MOTDCache\\");
+		dirs.push_back(poeDocDir + "\\ShaderCacheD3D11\\");
+		dirs.push_back(poeDocDir + "\\ShopImages\\");
+		dirs.push_back(poeDocDir + "\\DailyDealCache\\");
+	}
+
+	this->cacheCleaner->setClearCacheDirs(dirs);
+	this->cacheCleaner->setUpClearCacheThread();
 }
 
 

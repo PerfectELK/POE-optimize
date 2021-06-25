@@ -7,9 +7,11 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #include "Modules/Files/Config.h"
 #include "Modules/Files/CacheCleaner.h"
 #include "Modules/Windows/registry.h"
+#include "Lib/FolderFunc.h"
+#include <vector>
+
 
 class App {
-
 	enum class CTRLS_ID {
 		PLAY_BTN_ID,
 		PATH_AHK_ID,
@@ -36,7 +38,7 @@ private:
 	void InitControls();
 	void ConfToControls();
 	void RegistryInConf();
-	void clearCache();
+	void setUpCacheCleaner();
 
 	static LRESULT CALLBACK AppProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK WINProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

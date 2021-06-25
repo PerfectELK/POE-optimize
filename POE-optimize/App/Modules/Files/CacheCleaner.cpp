@@ -2,10 +2,7 @@
 
 CacheCleaner* CacheCleaner::instance = nullptr;
 
-CacheCleaner::CacheCleaner()
-{
-
-}
+CacheCleaner::CacheCleaner(){}
 
 CacheCleaner* CacheCleaner::getInstance() 
 {
@@ -24,6 +21,11 @@ void CacheCleaner::setClearCacheInterval(CString interval)
     this->clearCacheInterval = _ttoi(interval);
 }
 
+void CacheCleaner::setClearCacheDirs(vector<CString> dirs)
+{
+    this->dirs = dirs;
+}
+
 void CacheCleaner::setUpClearCacheThread()
 {
      thread t(&CacheCleaner::clearCache, this);
@@ -33,9 +35,9 @@ void CacheCleaner::setUpClearCacheThread()
 void CacheCleaner::clearCache()
 {
     while (true) {
-        wchar_t buffer[256];
-        _itow(this->clearCacheInterval, buffer, 10);
-        OutputDebugString(buffer);
-        this_thread::sleep_for(chrono::milliseconds(1000));
+        this_thread::sleep_for(chrono::milliseconds(this->clearCacheInterval * 60 * 1000));
+        for (int i = 0; i < this->dirs.size(); i++) {
+            removeallfromdir(AnsiToStr(this->dirs[i]));
+        }
     }
 }

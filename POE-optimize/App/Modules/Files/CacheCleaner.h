@@ -5,6 +5,8 @@
 #include <cstring>
 #include <thread>
 #include <chrono>
+#include <vector>
+#include "../../Lib/FolderFunc.h"
 
 #ifndef CACHE_CLEANER_H
 #define CACHE_CLEANER_H
@@ -16,13 +18,17 @@ public:
 	static CacheCleaner* getInstance();
 	void addFolder();
 	void setClearCacheInterval(CString interval);
+	void setClearCacheDirs(vector<CString> dirs);
 	void setUpClearCacheThread();
-	void clearCache();
+
 private:
 	CacheCleaner();
+	void clearCache();
+
+private:
 	static CacheCleaner* instance;
-	map <CString, CString> conf;
 	int clearCacheInterval;
+	vector<CString> dirs;
 };
 
 #endif

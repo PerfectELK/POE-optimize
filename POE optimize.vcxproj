@@ -22,6 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{DE92A44A-FC62-474B-B49E-500385463D57}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -76,7 +77,7 @@
       <WarningLevel>Level1</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <CallingConvention>StdCall</CallingConvention>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
@@ -102,6 +103,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="POE-optimize\App\Lib\FolderFunc.cpp" />
     <ClCompile Include="POE-optimize\App\Modules\Files\CacheCleaner.cpp" />
     <ClCompile Include="poe-optimize\app\App.cpp" />
     <ClCompile Include="poe-optimize\app\modules\files\Config.cpp" />

@@ -30,6 +30,9 @@
     <ClCompile Include="POE-optimize\App\Modules\Files\CacheCleaner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="POE-optimize\App\Lib\FolderFunc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="poe-optimize\app\App.h">

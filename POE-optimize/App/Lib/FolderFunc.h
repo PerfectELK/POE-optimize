@@ -4,95 +4,27 @@
 #include <atlstr.h>
 #include <filesystem>
 
+#ifndef FOLDER_FUNC_H
+#define FOLDER_FUNC_H
 #define SUCCESS_STAT 0
 
 using namespace std;
 
-INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData)
-{
-	if (uMsg == BFFM_INITIALIZED) SendMessage(hwnd, BFFM_SETSELECTION, TRUE, pData);
-	return 0;
-}
+INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData);
 
-CString BrowseForFolder(HWND hwnd, CString title, CString folder)
-{
-	CString ret;
+CString BrowseForFolder(HWND hwnd, CString title, CString folder);
 
-	BROWSEINFO br;
-	ZeroMemory(&br, sizeof(BROWSEINFO));
-	br.lpfn = BrowseCallbackProc;
-	br.ulFlags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE;
-	br.hwndOwner = hwnd;
-	br.lpszTitle = title;
-	br.lParam = (LPARAM)folder.GetString();
-	//br.ulFlags = BIF_BROWSEINCLUDEFILES;
-	LPITEMIDLIST pidl = NULL;
-	if ((pidl = SHBrowseForFolder(&br)) != NULL)
-	{
-		
-		wchar_t buffer[MAX_PATH];
-		if (SHGetPathFromIDList(pidl, buffer)) ret = buffer;
+CString BrowseForFile(HWND hwnd, CString title);
 
-	}
+string AnsiToStr(CString ansi);
 
-	return ret;
-}
+CString StrToAnsi(string str);
 
-CString BrowseForFile(HWND hwnd, CString title)
-{
-	CString ret;
+string ConvertWideCharToUtf8(const wchar_t* wideText);
 
-	OPENFILENAME l = { sizeof(l), };
-	TCHAR buf[1024];
-	l.hwndOwner = hwnd;
-	l.lpstrFilter = NULL;
-	l.lpstrFile = buf;
-	l.nMaxFile = 1023;
-	l.lpstrTitle = _T("Open File");
-	l.lpstrDefExt = _T("zip");
-	l.lpstrInitialDir = NULL;
-	l.Flags = OFN_HIDEREADONLY | OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_NOCHANGEDIR;
-	buf[0] = 0;
-
-	if (::GetOpenFileName(&l) != FALSE)
-	{
-		ret = l.lpstrFile;
-	}
-
-	return ret;
-}
-
-
-
-string AnsiToStr(CString ansi) {
-	CT2CA ConvertedAnsiString(ansi);
-	string s(ConvertedAnsiString);
-	return s;
-}
-
-CString StrToAnsi(string str) {
-	CString cs(str.c_str());
-	return cs;
-}
-
-string ConvertWideCharToUtf8( const wchar_t *wideText )
-{
-    int len = WideCharToMultiByte( CP_UTF8, 0, wideText, -1, NULL, 0, NULL, NULL );
-    char *buffer = (char *)malloc( len );
-    WideCharToMultiByte( CP_UTF8, 0, wideText, -1, buffer, len, NULL, NULL );
-    string s = buffer;
-    free( buffer );
-
-    return s;
-}
-
-//void removeallfromdir(string path) {
-//	std::filesystem::path pathtodelete(path);
-//	for (const auto& entry : std::filesystem::directory_iterator(pathtodelete)) {
-//		remove_all(entry.path());
-//	}
-//}
-
+void removeallfromdir(string path);
 
 // Пример
 // CString folder = BrowseForFolder(hWnd, L"Select Folder", L"C:\\");
+
+#endif
