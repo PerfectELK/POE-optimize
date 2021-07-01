@@ -482,6 +482,10 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				ShellExecute(NULL, L"open", ahk, this->cnf->getKey(_T("POE_TRADE")), 0, SW_SHOWNORMAL);
 			}
 
+			if (!this->cnf->getKey(_T("POB")).IsEmpty()) {
+				ShellExecute(NULL, L"open", this->cnf->getKey(_T("POB")), NULL, 0, SW_SHOWNORMAL);
+			}
+
 			Sleep(5000);
 
 			if (!this->cnf->getKey(_T("POE")).IsEmpty()) {
