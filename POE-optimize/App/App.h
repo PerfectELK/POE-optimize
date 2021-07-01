@@ -22,6 +22,8 @@ class App {
 		PATH_POE_BTN_ID,
 		PATH_POE_TRADE_ID,
 		PATH_POE_TRADE_BTN,
+		PATH_POB_ID,
+		PATH_POB_BTN_ID,
 		CLEAR_CACHE_INTERVAL_ID
 	};
 
@@ -48,6 +50,7 @@ private:
 	const std::wstring AppName = { L"POE Optimize" }, className{ L"POE Optimize" };
 	HWND m_hwnd{}, m_hwndButton, 
 		m_hwndPathAhkEdit, m_hvndPathAhkBtn,
+		m_hvndPathPOBEdit, m_hvndPathPOBBtn,
 		m_hvndPathMyDocEdit, m_hvndPathMyDocEditBtn,
 		m_hvndPoeTradeEdit, m_hvndPoeTradeBtn,
 		m_hvndPathOfExilePath, m_hvndPathOfExileBtn,

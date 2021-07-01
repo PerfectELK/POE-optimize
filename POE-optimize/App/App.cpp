@@ -209,6 +209,30 @@ void App::InitControls()
 		nullptr,
 		nullptr
 	);
+	
+	this->m_hvndPathPOBEdit = CreateWindowEx(
+		0,
+		L"EDIT",
+		L"",
+		WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | ES_READONLY | WS_BORDER | WS_EX_STATICEDGE,
+		EDIT_X, 140, EDIT_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_POB_ID,
+		nullptr,
+		nullptr
+	);
+
+	this->m_hvndPathPOBBtn = CreateWindowEx(
+		0,
+		L"BUTTON",
+		L"POB",
+		WS_CHILD | BS_PUSHBUTTON | WS_VISIBLE | ES_LEFT,
+		BUTTON_X, 140, BUTTON_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_POB_BTN_ID,
+		nullptr,
+		nullptr
+	);
 
 	this->m_hvndIntervalLabel = CreateWindowEx(
 		0,
@@ -248,6 +272,8 @@ void App::InitControls()
 	SendMessage(this->m_hvndPathAhkBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndPoeTradeEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndPoeTradeBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndPathPOBEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndPathPOBBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndClearCacheInterval, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndIntervalLabel, WM_SETFONT, (WPARAM)hFont, TRUE);
 
@@ -277,24 +303,39 @@ void App::ConfToControls() {
 		SetWindowText(this->m_hvndPoeTradeEdit, s);
 	}
 
+	s = this->cnf->getKey("POB");
+
+	if (!s.IsEmpty()) {
+		SetWindowText(this->m_hvndPathPOBEdit, s);
+	}
+
 }
 
 
 void App::RegistryInConf() {
 
 	if (this->cnf->getKey(_T("AHK")).IsEmpty()) {
-		string AhkInstallPath = getRegistryKey(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\AutoHotkey"), _T("InstallDir"));
+		CString AhkInstallPath = getRegistryKey(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\AutoHotkey"), _T("InstallDir"));
 		if (AhkInstallPath != "bad") {
-			this->cnf->setKey(_T("AHK"), StrToAnsi(AhkInstallPath));
-			SetWindowText(this->m_hwndPathAhkEdit, StrToAnsi(AhkInstallPath));
+			this->cnf->setKey(_T("AHK"), AhkInstallPath);
+			SetWindowText(this->m_hwndPathAhkEdit, AhkInstallPath);
 		}
 	}
 
 	if (this->cnf->getKey(_T("POE")).IsEmpty()) {
-		string poeInstallPath = getRegistryKey(HKEY_CURRENT_USER, L"SOFTWARE\\GrindingGearGames\\Path of Exile", L"InstallLocation");
-		if (poeInstallPath != "bad") {
-			this->cnf->setKey(_T("POE"), StrToAnsi(poeInstallPath));
-			SetWindowText(this->m_hvndPathOfExilePath, StrToAnsi(poeInstallPath));
+		CString poeInstallPath = getRegistryKey(HKEY_CURRENT_USER, L"SOFTWARE\\GrindingGearGames\\Path of Exile", L"InstallLocation");
+		if (poeInstallPath != L"bad") {
+			this->cnf->setKey(_T("POE"), poeInstallPath);
+			SetWindowText(this->m_hvndPathOfExilePath, poeInstallPath);
+		}
+	}
+	
+	if (this->cnf->getKey(_T("POB")).IsEmpty()) {
+		CString pobPath = getRegistryKey(HKEY_CLASSES_ROOT, L"pob\\DefaultIcon", L"");
+	
+		if (pobPath != L"bad") {
+			this->cnf->setKey(_T("POB"), pobPath);
+			SetWindowText(this->m_hvndPathPOBEdit, pobPath);
 		}
 	}
 
@@ -475,10 +516,19 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CString file = BrowseForFile(hWnd, L"Select file");
 			SetWindowText(this->m_hvndPoeTradeEdit, file);
 
-			this->cnf->setKey(_T("POE_TRADE"), file);		
+			this->cnf->setKey(_T("POE_TRADE"), file);
 
 			break;
-		}case App::CTRLS_ID::CLEAR_CACHE_INTERVAL_ID: {
+		}
+		case App::CTRLS_ID::PATH_POB_BTN_ID: {
+			CString file = BrowseForFile(hWnd, L"Select file");
+			SetWindowText(this->m_hvndPathPOBEdit, file);
+
+			this->cnf->setKey(_T("POB"), file);
+
+			break;
+		}
+		case App::CTRLS_ID::CLEAR_CACHE_INTERVAL_ID: {
 			if (actionCode == EN_CHANGE) {
 				CString clearCacheIntervalCStr;
 				TCHAR clearCacheIntervalStr[1024];
