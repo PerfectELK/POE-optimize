@@ -22,6 +22,8 @@ class App {
 		PATH_POE_BTN_ID,
 		PATH_POE_TRADE_ID,
 		PATH_POE_TRADE_BTN,
+		PATH_AWAKE_TRADE_ID,
+		PATH_AWAKE_TRADE_BTN,
 		PATH_POB_ID,
 		PATH_POB_BTN_ID,
 		CLEAR_CACHE_INTERVAL_ID
@@ -53,6 +55,7 @@ private:
 		m_hvndPathPOBEdit, m_hvndPathPOBBtn,
 		m_hvndPathMyDocEdit, m_hvndPathMyDocEditBtn,
 		m_hvndPoeTradeEdit, m_hvndPoeTradeBtn,
+		m_hvndAwakePoeTradeEdit, m_hvndAwakePoeTradeBtn,
 		m_hvndPathOfExilePath, m_hvndPathOfExileBtn,
 		m_hvndClearCacheInterval;
 	HWND m_hvndIntervalLabel;

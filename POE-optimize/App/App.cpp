@@ -88,7 +88,7 @@ void App::InitControls()
 	using std::runtime_error;
 
 	int CONTROL_HEIHGT = 25;
-	int BUTTON_WIDTH = 130;
+	int BUTTON_WIDTH = 165;
 	int EDIT_WIDTH = 200;
 	int NUM_EDIT_WIDTH = 50;
 
@@ -210,12 +210,36 @@ void App::InitControls()
 		nullptr
 	);
 	
-	this->m_hvndPathPOBEdit = CreateWindowEx(
+	this->m_hvndAwakePoeTradeEdit = CreateWindowEx(
 		0,
 		L"EDIT",
 		L"",
 		WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | ES_READONLY | WS_BORDER | WS_EX_STATICEDGE,
 		EDIT_X, 140, EDIT_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_AWAKE_TRADE_ID,
+		nullptr,
+		nullptr
+	);
+
+	this->m_hvndAwakePoeTradeBtn = CreateWindowEx(
+		0,
+		L"BUTTON",
+		L"Awakened POE trade",
+		WS_CHILD | BS_PUSHBUTTON | WS_VISIBLE | ES_LEFT,
+		BUTTON_X, 140, BUTTON_WIDTH, CONTROL_HEIHGT,
+		this->m_hwnd,
+		(HMENU)App::CTRLS_ID::PATH_AWAKE_TRADE_BTN,
+		nullptr,
+		nullptr
+	);
+	
+	this->m_hvndPathPOBEdit = CreateWindowEx(
+		0,
+		L"EDIT",
+		L"",
+		WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL | ES_READONLY | WS_BORDER | WS_EX_STATICEDGE,
+		EDIT_X, 170, EDIT_WIDTH, CONTROL_HEIHGT,
 		this->m_hwnd,
 		(HMENU)App::CTRLS_ID::PATH_POB_ID,
 		nullptr,
@@ -227,7 +251,7 @@ void App::InitControls()
 		L"BUTTON",
 		L"POB",
 		WS_CHILD | BS_PUSHBUTTON | WS_VISIBLE | ES_LEFT,
-		BUTTON_X, 140, BUTTON_WIDTH, CONTROL_HEIHGT,
+		BUTTON_X, 170, BUTTON_WIDTH, CONTROL_HEIHGT,
 		this->m_hwnd,
 		(HMENU)App::CTRLS_ID::PATH_POB_BTN_ID,
 		nullptr,
@@ -272,6 +296,8 @@ void App::InitControls()
 	SendMessage(this->m_hvndPathAhkBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndPoeTradeEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndPoeTradeBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndAwakePoeTradeEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
+	SendMessage(this->m_hvndAwakePoeTradeBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndPathPOBEdit, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndPathPOBBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndClearCacheInterval, WM_SETFONT, (WPARAM)hFont, TRUE);
@@ -490,7 +516,7 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if (!this->cnf->getKey(_T("POE")).IsEmpty()) {
 				CString poe = this->cnf->getKey(_T("POE")) + "\\" + this->PoeFileName;
-				ShellExecute(NULL, L"open", poe, NULL, 0, SW_SHOWNORMAL);
+				ShellExecute(NULL, L"open", poe, NULL, this->cnf->getKey(_T("POE")), SW_SHOWNORMAL);
 			}
 
 			break;
