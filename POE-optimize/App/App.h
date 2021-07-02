@@ -43,6 +43,7 @@ private:
 	void ConfToControls();
 	void RegistryInConf();
 	void setUpCacheCleaner();
+	void play();
 
 	static LRESULT CALLBACK AppProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK WINProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

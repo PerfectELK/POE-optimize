@@ -302,7 +302,6 @@ void App::InitControls()
 	SendMessage(this->m_hvndPathPOBBtn, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndClearCacheInterval, WM_SETFONT, (WPARAM)hFont, TRUE);
 	SendMessage(this->m_hvndIntervalLabel, WM_SETFONT, (WPARAM)hFont, TRUE);
-
 }
 
 void App::ConfToControls() {
@@ -329,12 +328,17 @@ void App::ConfToControls() {
 		SetWindowText(this->m_hvndPoeTradeEdit, s);
 	}
 
+	s = this->cnf->getKey("AWAKENED_POE_TRADE");
+
+	if (!s.IsEmpty()) {
+		SetWindowText(this->m_hvndAwakePoeTradeEdit, s);
+	}
+
 	s = this->cnf->getKey("POB");
 
 	if (!s.IsEmpty()) {
 		SetWindowText(this->m_hvndPathPOBEdit, s);
 	}
-
 }
 
 
@@ -368,11 +372,9 @@ void App::RegistryInConf() {
 	if (this->cnf->getKey(_T("ClearCacheInterval")).IsEmpty()) {
 		this->cnf->setKey(_T("ClearCacheInterval"), this->DefaultClearCacheInterval);
 		SetWindowText(this->m_hvndClearCacheInterval, this->DefaultClearCacheInterval);
-	}
-	else {
+	} else {
 		SetWindowText(this->m_hvndClearCacheInterval, this->cnf->getKey(_T("ClearCacheInterval")));
 	}
-
 }
 
 
@@ -400,6 +402,31 @@ void App::setUpCacheCleaner()
 	this->cacheCleaner->setUpClearCacheThread();
 }
 
+void App::play()
+{
+	if (!this->cnf->getKey(_T("POE_TRADE")).IsEmpty() && !this->cnf->getKey(_T("AHK")).IsEmpty()) {
+		CString ahk = this->cnf->getKey(_T("AHK")) + "\\" + this->AhkFileName;
+		ShellExecute(NULL, L"open", ahk, this->cnf->getKey(_T("POE_TRADE")), 0, SW_SHOWNORMAL);
+	}
+
+	if (!this->cnf->getKey(_T("AWAKENED_POE_TRADE")).IsEmpty()) {
+
+		ShellExecute(NULL, L"open", this->cnf->getKey(_T("AWAKENED_POE_TRADE")), NULL, 0, SW_SHOWNORMAL);
+	}
+
+	if (!this->cnf->getKey(_T("POB")).IsEmpty()) {
+		ShellExecute(NULL, L"open", this->cnf->getKey(_T("POB")), NULL, 0, SW_SHOWNORMAL);
+	}
+
+	
+	Sleep(5000);
+
+	if (!this->cnf->getKey(_T("POE")).IsEmpty()) {
+		CString poe = this->cnf->getKey(_T("POE")) + "\\" + this->PoeFileName;
+		ShellExecute(NULL, L"open", poe, NULL, this->cnf->getKey(_T("POE")), SW_SHOWNORMAL);
+	}
+}
+
 
 LRESULT App::AppProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -412,9 +439,7 @@ LRESULT App::AppProcess(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				return false;
 			}
 		}
-
-	}
-	else {
+	} else {
 		pApp = (App*) GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	}
 
@@ -503,22 +528,7 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (CTRL) {
 
 		case App::CTRLS_ID::PLAY_BTN_ID: {
-			if (!this->cnf->getKey(_T("POE_TRADE")).IsEmpty() && !this->cnf->getKey(_T("AHK")).IsEmpty()) {
-				CString ahk = this->cnf->getKey(_T("AHK")) + "\\" + this->AhkFileName;
-				ShellExecute(NULL, L"open", ahk, this->cnf->getKey(_T("POE_TRADE")), 0, SW_SHOWNORMAL);
-			}
-
-			if (!this->cnf->getKey(_T("POB")).IsEmpty()) {
-				ShellExecute(NULL, L"open", this->cnf->getKey(_T("POB")), NULL, 0, SW_SHOWNORMAL);
-			}
-
-			Sleep(5000);
-
-			if (!this->cnf->getKey(_T("POE")).IsEmpty()) {
-				CString poe = this->cnf->getKey(_T("POE")) + "\\" + this->PoeFileName;
-				ShellExecute(NULL, L"open", poe, NULL, this->cnf->getKey(_T("POE")), SW_SHOWNORMAL);
-			}
-
+			this->play();
 			break;
 		}
 		case App::CTRLS_ID::PATH_POE_BTN_ID: {
@@ -550,6 +560,14 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			break;
 		}
+		case App::CTRLS_ID::PATH_AWAKE_TRADE_BTN: {
+			CString file = BrowseForFile(hWnd, L"Select file");
+			SetWindowText(this->m_hvndAwakePoeTradeEdit, file);
+
+			this->cnf->setKey(_T("AWAKENED_POE_TRADE"), file);
+
+			break;
+		}
 		case App::CTRLS_ID::PATH_POB_BTN_ID: {
 			CString file = BrowseForFile(hWnd, L"Select file");
 			SetWindowText(this->m_hvndPathPOBEdit, file);
@@ -570,7 +588,6 @@ LRESULT App::AppCommand(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					this->cnf->setKey(_T("ClearCacheInterval"), this->DefaultClearCacheInterval);
 				}
 				this->cacheCleaner->setClearCacheInterval(this->cnf->getKey(_T("ClearCacheInterval")));
-				
 			}
 			break;
 		}

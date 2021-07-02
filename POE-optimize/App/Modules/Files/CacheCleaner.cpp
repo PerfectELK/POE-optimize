@@ -12,10 +12,6 @@ CacheCleaner* CacheCleaner::getInstance()
     return instance;
 }
 
-void CacheCleaner::addFolder()
-{
-}
-
 void CacheCleaner::setClearCacheInterval(CString interval)
 {
     this->clearCacheInterval = _ttoi(interval);

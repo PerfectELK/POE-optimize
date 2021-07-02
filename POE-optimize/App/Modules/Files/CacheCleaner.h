@@ -16,7 +16,6 @@ using namespace std;
 class CacheCleaner {
 public:
 	static CacheCleaner* getInstance();
-	void addFolder();
 	void setClearCacheInterval(CString interval);
 	void setClearCacheDirs(vector<CString> dirs);
 	void setUpClearCacheThread();
