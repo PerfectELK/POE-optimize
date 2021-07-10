@@ -49,13 +49,15 @@ void App::InitWindow()
 
 	using std::runtime_error;
 
+	HICON hIcon = static_cast<HICON>(LoadImage(NULL, L"Assets\\app.ico", IMAGE_ICON, 0, 0, LR_LOADFROMFILE));
+
 	WNDCLASSEX wc{ sizeof(WNDCLASSEX) };
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hbrBackground = reinterpret_cast<HBRUSH>(GetStockObject(WHITE_BRUSH));
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
-	wc.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
+	wc.hIcon = hIcon;
+	wc.hIconSm = hIcon;
 	wc.hInstance = GetModuleHandle(nullptr);
 	wc.lpfnWndProc = App::AppProcess;
 	wc.lpszClassName = this->className.c_str();
