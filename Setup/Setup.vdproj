@@ -129,7 +129,7 @@
             "SourcePath" = "8:C:\\Users\\Андрей\\Desktop\\app.ico"
             "TargetName" = "8:app.ico"
             "Tag" = "8:"
-            "Folder" = "8:_AC5337F4527C49D1AFC7EA69EDA1E4CE"
+            "Folder" = "8:_2D0A5B23114F45B380DC2BFB0E26AD79"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -253,6 +253,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_2D0A5B23114F45B380DC2BFB0E26AD79"
+                    {
+                    "Name" = "8:Assets"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_799BCFCCECAD47B9B9761EBF21604CE4"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -271,15 +282,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:POE-Helper"
-        "ProductCode" = "8:{AAC361A6-C43B-40AA-8D63-E0D420D9DCCA}"
-        "PackageCode" = "8:{9CA8583E-AD60-42A0-A6BD-030D9D2CF955}"
+        "ProductCode" = "8:{7DD9EB1B-4A64-41E9-BB6E-4AC930D68184}"
+        "PackageCode" = "8:{CD41EF46-FE27-44E4-9735-12525063ADE5}"
         "UpgradeCode" = "8:{BC7DC2E7-ACC9-42A2-95B5-3AD6ECD97ECA}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.0.1"
+        "ProductVersion" = "8:0.0.2"
         "Manufacturer" = "8:Pelk"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
