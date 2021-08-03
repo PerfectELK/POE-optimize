@@ -21,13 +21,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4D2B5968DBEE4FA79D83263BDFA14FA5"
+        "MsmKey" = "8:_3B67917B51944FD1ACC3D49C62D6DA88"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9974AD983AA3471296751A0C33C955F3"
+        "MsmKey" = "8:_4D2B5968DBEE4FA79D83263BDFA14FA5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -67,6 +67,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -83,6 +99,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -124,9 +148,9 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9974AD983AA3471296751A0C33C955F3"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3B67917B51944FD1ACC3D49C62D6DA88"
             {
-            "SourcePath" = "8:C:\\Users\\Андрей\\Desktop\\app.ico"
+            "SourcePath" = "8:..\\Assets\\app.ico"
             "TargetName" = "8:app.ico"
             "Tag" = "8:"
             "Folder" = "8:_2D0A5B23114F45B380DC2BFB0E26AD79"
@@ -300,7 +324,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:perfect-elk.ru"
-        "ARPPRODUCTICON" = "8:_9974AD983AA3471296751A0C33C955F3"
+        "ARPPRODUCTICON" = "8:_3B67917B51944FD1ACC3D49C62D6DA88"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -414,7 +438,7 @@
             "Target" = "8:_4D2B5968DBEE4FA79D83263BDFA14FA5"
             "Folder" = "8:_44395E8FEAEF479AB5A54A29ACBD3DEE"
             "WorkingFolder" = "8:_AC5337F4527C49D1AFC7EA69EDA1E4CE"
-            "Icon" = "8:_9974AD983AA3471296751A0C33C955F3"
+            "Icon" = "8:_3B67917B51944FD1ACC3D49C62D6DA88"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_DFCB31172127479A8FDBF0C3CB2A2F30"
@@ -428,7 +452,7 @@
             "Target" = "8:_4D2B5968DBEE4FA79D83263BDFA14FA5"
             "Folder" = "8:_B5F09735967440849FDC6698B32B4AA9"
             "WorkingFolder" = "8:_AC5337F4527C49D1AFC7EA69EDA1E4CE"
-            "Icon" = "8:_9974AD983AA3471296751A0C33C955F3"
+            "Icon" = "8:_3B67917B51944FD1ACC3D49C62D6DA88"
             "Feature" = "8:"
             }
         }
